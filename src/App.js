@@ -1,19 +1,32 @@
-import Card from './Card'
-function Tours({tours, removeTour}) {
+import React, {useState} from "react";
+import data from './data'
+import Tours from "./components/Tours";
+
+const App = () => {
+
+  const [tours, setTours] = useState(data);
+
+  function removeTour(id) {
+    const newTours = tours.filter(tour => tour.id !== id);
+    setTours(newTours);
+  }
+
+  if(tours.length === 0) {
     return (
-        <div className='container'>
-            <div>
-                <h2 className='title'> Plan With Love</h2>
-            </div>
-            <div className='cards'>
-                {
-                    tours.map( (tour) => {
-                        return <Card key={tour.id} {...tour} removeTour={removeTour}></Card>
-                    } )
-                }
-            </div>
+        <div className="refresh">
+          <h2>No Tours Left</h2>
+          <button className="btn-white" onClick={() => setTours(data)}>
+            Refresh
+          </button>
         </div>
     );
-}
+  }
 
-export default Tours;
+  return (
+    <div className="App">
+      <Tours tours={tours} removeTour={removeTour}></Tours>
+    </div>
+  )
+};
+
+export default App;
